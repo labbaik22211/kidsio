@@ -4,8 +4,8 @@ const products = [
   {
     id: 1,
     name: "Baby Boys Traditional Cotton Panjabi & Pajama Set",
-    originalPrice: 1200,
-    discountPrice: 600,
+    originalPrice: 500,
+    discountPrice: 250,
     discountPercent: 50,
     image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=500&q=80",
     category: "Boys Ethnic"
