@@ -86,7 +86,7 @@ export default function Home() {
               <img 
                 src="/logo.png" 
                 alt="Kids Fashion Logo" 
-                className="h-14 sm:h-20 mx-auto object-contain hover:scale-105 transition duration-300"
+                className="h-20 sm:h-28 mx-w-[280px] sm:max-w-[360px] w-full mx-auto object-contain hover:scale-105 transition duration-300"
               />
             </Link>
           </div>
