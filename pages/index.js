@@ -84,9 +84,9 @@ export default function Home() {
           <div className="text-center">
             <Link href="/">
               <img 
-                src="https://ibb.co.com/BVjpdqSd" 
+                src="/logo.png" 
                 alt="Kids Fashion Logo" 
-                className="h-12 sm:h-16 mx-auto object-contain hover:scale-105 transition duration-300"
+                className="h-14 sm:h-20 mx-auto object-contain hover:scale-105 transition duration-300"
               />
             </Link>
           </div>
