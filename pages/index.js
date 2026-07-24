@@ -67,30 +67,32 @@ export default function Home() {
         ✨ সারাদেশে ফ্রি হোম ডেলিভারি পেতে এখনই অর্ডার করুন! ✨
       </div>
 
-      {/* Header with Hamburger Menu */}
+      {/* Header with Logo & Hamburger Menu */}
       <header className="bg-white border-b border-amber-100 sticky top-0 z-40 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           
           {/* Left: Hamburger Button (Three Lines) */}
           <button 
             onClick={() => setIsSidebarOpen(true)}
-            className="text-2xl text-[#8c1d40] focus:outline-none p-1"
+            className="text-2xl text-[#8c1d40] focus:outline-none p-1 hover:opacity-80 transition"
             title="Open Filter Menu"
           >
             ☰
           </button>
 
-          {/* Center: Brand Name */}
+          {/* Center: Custom Image Logo */}
           <div className="text-center">
             <Link href="/">
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-widest text-[#8c1d40] uppercase">
-                KIDS FASHION
-              </h1>
+              <img 
+                src="https://ibb.co.com/BVjpdqSd" 
+                alt="Kids Fashion Logo" 
+                className="h-12 sm:h-16 mx-auto object-contain hover:scale-105 transition duration-300"
+              />
             </Link>
           </div>
 
           {/* Right Links (Desktop) */}
-          <div className="hidden md:flex gap-6 text-xs font-sans tracking-wider text-gray-600">
+          <div className="hidden md:flex gap-6 text-xs font-sans tracking-wider text-gray-600 font-bold">
             <Link href="/category/new" className="hover:text-[#8c1d40]">নতুন কালেকশন</Link>
             <Link href="/category/boys" className="hover:text-[#8c1d40]">ছেলেদের পোশাক</Link>
             <Link href="/category/girls" className="hover:text-[#8c1d40]">মেয়েদের পোশাক</Link>
@@ -107,34 +109,34 @@ export default function Home() {
             <div>
               <div className="flex justify-between items-center border-b pb-3 mb-6">
                 <h3 className="font-bold text-lg text-[#8c1d40] uppercase tracking-wider">ফিল্টার মেনু</h3>
-                <button onClick={() => setIsSidebarOpen(false)} className="text-2xl font-bold text-gray-500">×</button>
+                <button onClick={() => setIsSidebarOpen(false)} className="text-2xl font-bold text-gray-500 hover:text-gray-800">×</button>
               </div>
 
               {/* Category Filter */}
               <div className="mb-6">
                 <h4 className="font-semibold text-xs text-gray-500 uppercase tracking-widest mb-3">ক্যাটাগরি বাছাই করুন</h4>
-                <div className="flex flex-col gap-2 text-sm">
+                <div className="flex flex-col gap-2 text-sm font-medium">
                   <button 
                     onClick={() => { setSelectedCategory('all'); setIsSidebarOpen(false); }}
-                    className={`text-left p-2 border ${selectedCategory === 'all' ? 'bg-[#8c1d40] text-white' : 'hover:bg-amber-50'}`}
+                    className={`text-left p-2.5 border transition ${selectedCategory === 'all' ? 'bg-[#8c1d40] text-white border-[#8c1d40]' : 'hover:bg-amber-50'}`}
                   >
                     সকল পোশাক
                   </button>
                   <Link 
                     href="/category/new" 
-                    className="p-2 border hover:bg-amber-50 block"
+                    className="p-2.5 border hover:bg-amber-50 block text-gray-700 transition"
                   >
                     নতুন কালেকশন Page ➔
                   </Link>
                   <Link 
                     href="/category/boys" 
-                    className="p-2 border hover:bg-amber-50 block"
+                    className="p-2.5 border hover:bg-amber-50 block text-gray-700 transition"
                   >
                     ছেলেদের পোশাক Page ➔
                   </Link>
                   <Link 
                     href="/category/girls" 
-                    className="p-2 border hover:bg-amber-50 block"
+                    className="p-2.5 border hover:bg-amber-50 block text-gray-700 transition"
                   >
                     মেয়েদের পোশাক Page ➔
                   </Link>
@@ -157,12 +159,12 @@ export default function Home() {
               placeholder="🔍 প্রোডাক্টের নাম দিয়ে খুঁজুন..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full p-3 pl-4 border border-amber-200 rounded-none shadow-sm focus:outline-none focus:border-[#8c1d40] text-sm"
+              className="w-full p-3 pl-4 border border-amber-200 rounded-none shadow-sm focus:outline-none focus:border-[#8c1d40] text-sm bg-white"
             />
             {searchTerm && (
               <button 
                 onClick={() => setSearchTerm('')} 
-                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 text-sm"
+                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 text-sm font-bold"
               >
                 Clear
               </button>
@@ -178,7 +180,7 @@ export default function Home() {
                 <div>
                   <div className="relative overflow-hidden bg-stone-100">
                     <img src={product.image} alt={product.name} className="w-full h-64 object-cover group-hover:scale-105 transition duration-500" />
-                    <span className="absolute top-3 right-3 bg-[#8c1d40] text-white text-[10px] font-sans font-bold px-2.5 py-1 uppercase tracking-wider">
+                    <span className="absolute top-3 right-3 bg-[#8c1d40] text-white text-[10px] font-sans font-bold px-2.5 py-1 uppercase tracking-wider shadow-sm">
                       {product.discountPercent}% ছাড়
                     </span>
                   </div>
