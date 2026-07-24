@@ -11,7 +11,14 @@ export default function Checkout() {
   const productPrice = price || "500";
 
   const [paymentMethod, setPaymentMethod] = useState('bkash');
-  const [formData, setFormData] = useState({ name: '', phone: '', address: '', size: '1-2 Years', trxId: '' });
+  const [formData, setFormData] = useState({ 
+    name: '', 
+    phone: '', 
+    address: '', 
+    size: '1-2 Years', 
+    sizeInches: '', 
+    trxId: '' 
+  });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -26,7 +33,8 @@ export default function Checkout() {
           color: paymentMethod === 'bkash' ? 16711680 : paymentMethod === 'nagad' ? 16744192 : 32768,
           fields: [
             { name: "👕 প্রোডাক্ট", value: productName, inline: false },
-            { name: "📏 জামার সাইজ", value: formData.size, inline: true },
+            { name: "📏 জামার সাইজ (বয়স)", value: formData.size, inline: true },
+            { name: "📐 ইঞ্চির মাপ (Custom Size)", value: formData.sizeInches || "দেওয়া হয়নি", inline: true },
             { name: "💰 মূল্য", value: `৳${productPrice}`, inline: true },
             { name: "💳 পেমেন্ট মেথড", value: paymentMethod.toUpperCase(), inline: true },
             { name: "👤 কাস্টমারের নাম", value: formData.name, inline: false },
@@ -131,9 +139,9 @@ export default function Checkout() {
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-xs">
           
-          {/* 👕 জামার সাইজ সিলেক্ট করার অপশন */}
+          {/* 👕 জামার বয়সের সাইজ সিলেক্ট করার অপশন (১০ বছর পর্যন্ত) */}
           <div>
-            <label className="block text-gray-700 mb-1 font-semibold">জামার সাইজ নির্বাচন করুন:</label>
+            <label className="block text-gray-700 mb-1 font-semibold">জামার বয়সের সাইজ নির্বাচন করুন:</label>
             <select
               value={formData.size}
               onChange={(e) => setFormData({ ...formData, size: e.target.value })}
@@ -145,7 +153,29 @@ export default function Checkout() {
               <option value="2-3 Years">2 - 3 বছর</option>
               <option value="3-4 Years">3 - 4 বছর</option>
               <option value="4-5 Years">4 - 5 বছর</option>
+              <option value="5-6 Years">5 - 6 বছর</option>
+              <option value="6-7 Years">6 - 7 বছর</option>
+              <option value="7-8 Years">7 - 8 বছর</option>
+              <option value="8-9 Years">8 - 9 বছর</option>
+              <option value="9-10 Years">9 - 10 বছর</option>
             </select>
+          </div>
+
+          {/* 📏 ইঞ্চির মাপ লেখার বক্স (Custom Measurement) */}
+          <div>
+            <label className="block text-gray-700 mb-1 font-semibold">
+              সাইজ ইঞ্চিতে লিখুন (অপশনাল):
+            </label>
+            <input
+              type="text"
+              placeholder="যেমন: লম্বা ২৪ ইঞ্চি, বডি ২৬ ইঞ্চি"
+              value={formData.sizeInches}
+              onChange={(e) => setFormData({ ...formData, sizeInches: e.target.value })}
+              className="w-full p-2.5 border focus:outline-none focus:border-[#8c1d40]"
+            />
+            <p className="text-[10px] text-gray-500 mt-1">
+              * সঠিক ফিটিং পেতে জামার ঝুল/বুকের মাপ ইঞ্চিতে লিখে দিতে পারেন।
+            </p>
           </div>
 
           <div>
