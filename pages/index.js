@@ -1,14 +1,16 @@
+import { useState } from 'react';
 import Link from 'next/link';
 
-const products = [
+const allProducts = [
   {
     id: 1,
     name: "Baby Boys Traditional Cotton Panjabi & Pajama Set",
-    originalPrice: 500,
-    discountPrice: 250,
+    originalPrice: 1200,
+    discountPrice: 600,
     discountPercent: 50,
     image: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=500&q=80",
-    category: "Boys Ethnic"
+    category: "boys",
+    isNew: true
   },
   {
     id: 2,
@@ -17,7 +19,8 @@ const products = [
     discountPrice: 700,
     discountPercent: 50,
     image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?auto=format&fit=crop&w=500&q=80",
-    category: "Girls Festive"
+    category: "girls",
+    isNew: true
   },
   {
     id: 3,
@@ -26,7 +29,8 @@ const products = [
     discountPrice: 500,
     discountPercent: 50,
     image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=500&q=80",
-    category: "Casual Wear"
+    category: "girls",
+    isNew: false
   },
   {
     id: 4,
@@ -35,120 +39,174 @@ const products = [
     discountPrice: 400,
     discountPercent: 50,
     image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=500&q=80",
-    category: "Boys Casual"
+    category: "boys",
+    isNew: false
   }
 ];
 
 export default function Home() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+
+  // Filter products by search name and category
+  const filteredProducts = allProducts.filter((product) => {
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' 
+      ? true 
+      : selectedCategory === 'new' 
+      ? product.isNew 
+      : product.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <div className="min-h-screen bg-[#faf8f5] text-gray-800 font-serif">
-      <div className="bg-[#8c1d40] text-white text-xs text-center py-2 px-4 tracking-widest font-sans">
+      {/* Top Banner */}
+      <div className="bg-[#8c1d40] text-white text-xs text-center py-2 px-4 font-sans">
         ✨ সারাদেশে ফ্রি হোম ডেলিভারি পেতে এখনই অর্ডার করুন! ✨
       </div>
 
-      <header className="bg-white border-b border-amber-100 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-center sm:text-left">
-            <h1 className="text-3xl font-bold tracking-widest text-[#8c1d40] uppercase">
-              KIDS FASHION
-            </h1>
-            <p className="text-[11px] tracking-widest text-amber-800 font-sans uppercase">
-              Traditional & Modern Ethnic Wear
-            </p>
+      {/* Header with Hamburger Menu */}
+      <header className="bg-white border-b border-amber-100 sticky top-0 z-40 shadow-sm">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+          
+          {/* Left: Hamburger Button (Three Lines) */}
+          <button 
+            onClick={() => setIsSidebarOpen(true)}
+            className="text-2xl text-[#8c1d40] focus:outline-none p-1"
+            title="Open Filter Menu"
+          >
+            ☰
+          </button>
+
+          {/* Center: Brand Name */}
+          <div className="text-center">
+            <Link href="/">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-widest text-[#8c1d40] uppercase">
+                KIDS FASHION
+              </h1>
+            </Link>
           </div>
 
-          <div className="flex gap-6 text-xs font-sans tracking-wider text-gray-600">
-            <a href="#products" className="hover:text-[#8c1d40] transition">নতুন কালেকশন</a>
-            <a href="#products" className="hover:text-[#8c1d40] transition">ছেলেদের পোশাক</a>
-            <a href="#products" className="hover:text-[#8c1d40] transition">মেয়েদের পোশাক</a>
+          {/* Right Links (Desktop) */}
+          <div className="hidden md:flex gap-6 text-xs font-sans tracking-wider text-gray-600">
+            <Link href="/category/new" className="hover:text-[#8c1d40]">নতুন কালেকশন</Link>
+            <Link href="/category/boys" className="hover:text-[#8c1d40]">ছেলেদের পোশাক</Link>
+            <Link href="/category/girls" className="hover:text-[#8c1d40]">মেয়েদের পোশাক</Link>
           </div>
         </div>
       </header>
 
-      <section className="bg-[#f4efe8] py-12 px-4 text-center border-b border-amber-100">
-        <div className="max-w-3xl mx-auto">
-          <span className="text-xs uppercase tracking-widest text-[#8c1d40] font-sans font-semibold">
-            Special Festivities Sale
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-normal mt-2 mb-4 text-gray-900">
-            বাচ্চাদের সেরা ট্রেন্ডি ও প্রিমিয়াম পোশাক
-          </h2>
-          <p className="text-sm font-sans text-gray-600 max-w-xl mx-auto leading-relaxed">
-            আড়ং-এর মতো দেশীয় ও নান্দনিক ডিজাইনে আপনার সোনামণির জন্য বেছে নিন সেরা মানের পাঞ্জাবি, ফ্রক এবং ক্যাজুয়াল সেট।
-          </p>
-        </div>
-      </section>
-
-      <main id="products" className="max-w-6xl mx-auto px-4 py-12">
-        <div className="flex justify-between items-end border-b pb-4 mb-8 border-amber-200">
-          <div>
-            <span className="text-xs font-sans uppercase tracking-widest text-amber-800">Featured Items</span>
-            <h3 className="text-2xl font-bold text-gray-900 mt-1">আমাদের আকর্ষণীয় প্রোডাক্টসমূহ</h3>
-          </div>
-          <span className="text-xs font-sans text-gray-500 hidden sm:block">৫০% পর্যন্ত বিশেষ ছাড়</span>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
-            <div 
-              key={product.id} 
-              className="bg-white border border-stone-200 rounded-none overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
-            >
-              <div>
-                <div className="relative overflow-hidden bg-stone-100">
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="w-full h-64 object-cover group-hover:scale-105 transition duration-500" 
-                  />
-                  <span className="absolute top-3 right-3 bg-[#8c1d40] text-white text-[10px] font-sans font-bold px-2.5 py-1 uppercase tracking-wider">
-                    {product.discountPercent}% ছাড়
-                  </span>
-                </div>
-
-                <div className="p-4">
-                  <span className="text-[10px] font-sans uppercase tracking-widest text-amber-800 block mb-1">
-                    {product.category}
-                  </span>
-                  <h4 className="font-semibold text-sm mb-3 text-gray-800 leading-snug line-clamp-2 h-10">
-                    {product.name}
-                  </h4>
-                  <div className="flex items-baseline gap-2 mb-4 font-sans">
-                    <span className="text-gray-400 line-through text-xs">৳{product.originalPrice}</span>
-                    <span className="text-[#8c1d40] font-extrabold text-lg">৳{product.discountPrice}</span>
-                  </div>
-                </div>
+      {/* Side Drawer Filter Sidebar */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 z-50 flex">
+          <div className="fixed inset-0 bg-black/40" onClick={() => setIsSidebarOpen(false)}></div>
+          
+          <div className="relative bg-white w-72 max-w-full p-6 flex flex-col justify-between z-10 shadow-2xl font-sans">
+            <div>
+              <div className="flex justify-between items-center border-b pb-3 mb-6">
+                <h3 className="font-bold text-lg text-[#8c1d40] uppercase tracking-wider">ফিল্টার মেনু</h3>
+                <button onClick={() => setIsSidebarOpen(false)} className="text-2xl font-bold text-gray-500">×</button>
               </div>
 
-              <div className="p-4 pt-0">
-                <Link 
-                  href={`/checkout?name=${encodeURIComponent(product.name)}&price=${product.discountPrice}`}
-                  className="block text-center bg-[#8c1d40] hover:bg-[#6e1632] text-white text-xs font-sans font-semibold tracking-widest uppercase py-3 transition shadow-sm"
-                >
-                  এখনই কিনুন
-                </Link>
+              {/* Category Filter */}
+              <div className="mb-6">
+                <h4 className="font-semibold text-xs text-gray-500 uppercase tracking-widest mb-3">ক্যাটাগরি বাছাই করুন</h4>
+                <div className="flex flex-col gap-2 text-sm">
+                  <button 
+                    onClick={() => { setSelectedCategory('all'); setIsSidebarOpen(false); }}
+                    className={`text-left p-2 border ${selectedCategory === 'all' ? 'bg-[#8c1d40] text-white' : 'hover:bg-amber-50'}`}
+                  >
+                    সকল পোশাক
+                  </button>
+                  <Link 
+                    href="/category/new" 
+                    className="p-2 border hover:bg-amber-50 block"
+                  >
+                    নতুন কালেকশন Page ➔
+                  </Link>
+                  <Link 
+                    href="/category/boys" 
+                    className="p-2 border hover:bg-amber-50 block"
+                  >
+                    ছেলেদের পোশাক Page ➔
+                  </Link>
+                  <Link 
+                    href="/category/girls" 
+                    className="p-2 border hover:bg-amber-50 block"
+                  >
+                    মেয়েদের পোশাক Page ➔
+                  </Link>
+                </div>
               </div>
             </div>
-          ))}
+
+            <p className="text-[10px] text-gray-400 text-center border-t pt-4">© Kids Fashion Store</p>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content & Search Filter */}
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        {/* Name Search Box */}
+        <div className="max-w-md mx-auto mb-8 font-sans">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="🔍 প্রোডাক্টের নাম দিয়ে খুঁজুন..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full p-3 pl-4 border border-amber-200 rounded-none shadow-sm focus:outline-none focus:border-[#8c1d40] text-sm"
+            />
+            {searchTerm && (
+              <button 
+                onClick={() => setSearchTerm('')} 
+                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 text-sm"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((product) => (
+              <div key={product.id} className="bg-white border border-stone-200 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
+                <div>
+                  <div className="relative overflow-hidden bg-stone-100">
+                    <img src={product.image} alt={product.name} className="w-full h-64 object-cover group-hover:scale-105 transition duration-500" />
+                    <span className="absolute top-3 right-3 bg-[#8c1d40] text-white text-[10px] font-sans font-bold px-2.5 py-1 uppercase tracking-wider">
+                      {product.discountPercent}% ছাড়
+                    </span>
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-semibold text-sm mb-3 text-gray-800 leading-snug h-10">{product.name}</h4>
+                    <div className="flex items-baseline gap-2 mb-4 font-sans">
+                      <span className="text-gray-400 line-through text-xs">৳{product.originalPrice}</span>
+                      <span className="text-[#8c1d40] font-extrabold text-lg">৳{product.discountPrice}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 pt-0">
+                  <Link 
+                    href={`/checkout?name=${encodeURIComponent(product.name)}&price=${product.discountPrice}`}
+                    className="block text-center bg-[#8c1d40] hover:bg-[#6e1632] text-white text-xs font-sans font-semibold tracking-widest uppercase py-3 transition shadow-sm"
+                  >
+                    এখনই কিনুন
+                  </Link>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12 text-gray-500 font-sans">
+              "<b>{searchTerm}</b>" নামের কোনো পোশাক খুঁজে পাওয়া যায়নি।
+            </div>
+          )}
         </div>
       </main>
-
-      <footer className="bg-[#2d2926] text-amber-50 py-10 px-4 font-sans border-t-4 border-[#8c1d40]">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-          <div>
-            <h4 className="font-bold uppercase tracking-wider text-sm mb-2 text-amber-200">প্রিমিয়াম কোয়ালিটি</h4>
-            <p className="text-xs text-stone-400 leading-relaxed">১০০% কটন এবং অ্যালার্জি মুক্ত নরম কাপড়ে তৈরি বাচ্চাদের কমফোর্ট ড্রেস।</p>
-          </div>
-          <div>
-            <h4 className="font-bold uppercase tracking-wider text-sm mb-2 text-amber-200">সহজ ডেলিভারি ও পেমেন্ট</h4>
-            <p className="text-xs text-stone-400 leading-relaxed">বিকাশ, নগদ বা ক্যাশ অন ডেলিভারিতে দ্রুত সারা বাংলাদেশে ডেলিভারি।</p>
-          </div>
-          <div>
-            <h4 className="font-bold uppercase tracking-wider text-sm mb-2 text-amber-200">কাস্টমার সাপোর্ট</h4>
-            <p className="text-xs text-stone-400 leading-relaxed">যেকোনো প্রশ্ন বা সাহায্যের জন্য আমাদের সাথে যোগাযোগ করুন।</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
